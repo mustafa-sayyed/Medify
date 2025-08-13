@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router";
-import { Login, Signup, Home, ForgotPassword } from "./pages";
+import { Login, Signup, Home, ForgotPassword, ResetPassword } from "./pages";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -28,6 +28,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
       </Routes>
       <Toaster position="top-right" />
     </>

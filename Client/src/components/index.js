@@ -6,5 +6,16 @@ import CTA from "./CTA.jsx";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import ForgotPasswordForm from "./ForgotPasswordForm";
+import ResetPasswordForm from "./ResetPasswordForm";
 
-export { Hero, CTA, Navbar, FeaturesSection, Footer, LoginForm, SignupForm, ForgotPasswordForm };
+export {
+  Hero,
+  CTA,
+  Navbar,
+  FeaturesSection,
+  Footer,
+  LoginForm,
+  SignupForm,
+  ForgotPasswordForm,
+  ResetPasswordForm,
+};
