@@ -36,9 +36,9 @@ function Hero() {
       </div>
 
       {/* Hero content */}
-      <div className="absolute z-20 w-full h-full flex flex-col justify-center mt-10 px-4">
+      <div className="absolute z-20 w-full h-full flex flex-col justify-center mt-10 px-4 font-manrope">
         <FadeUpText delay={0.3}>
-          <motion.h1 className="py-8 text-4xl font-bold text-neutral-300 sm:text-7xl text-center">
+          <motion.h1 className="py-8 text-4xl font-bold text-neutral-300 sm:text-[5rem] text-center">
             {/* <span className="bg-gradient-to-b bg-clip-text text-transparent from-gray-50 to-cyan-800 ">Your Health</span>, */}
             Your Health,
             <br /> Always in Your Hands

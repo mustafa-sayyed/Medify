@@ -7,6 +7,7 @@ import { MdOutlineHealthAndSafety, MdOutlineDashboard } from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import { HiChartPie } from "react-icons/hi";
 import { SpotlightCard } from "./ui";
+import { motion } from "motion/react";
 
 export const features = [
   {
@@ -73,7 +74,9 @@ export default function FeaturesSection() {
   return (
     <section className="bg-black text-white py-20 px-6 md:px-12" id="features">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4">Smarter Health. Simplified Records.</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-manrope ">
+          Smarter Health. Simplified Records.
+        </h2>
         <p className="text-gray-400 max-w-xl mx-auto">
           Medify brings your entire medical history together — AI-powered insights, secure
           storage, and easy access anytime, anywhere.
@@ -83,18 +86,27 @@ export default function FeaturesSection() {
       <div className="sm:grid grid-cols-1 sm:text-base sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:px-20 xl:px-28 sm:px-6 md:px-12 px-0 hidden">
         {features.map((feature, index) => {
           return (
-            <SpotlightCard
-              spotlightColor="rgba(0, 229, 255, 0.3)"
-              key={index}
-              className="sm:py-8 sm:px-6 xl:py-10 py-6 px-4 h-full">
-              <div className="flex flex-col h-full">
-                <div className="text-3xl mb-4 text-cyan-400">{feature.icon}</div>
-                <h3 className="text-lg font-semibold mb-3 text-white">{feature.title}</h3>
-                <p className="text-neutral-400 leading-relaxed  flex-grow">
-                  {feature.description}
-                </p>
-              </div>
-            </SpotlightCard>
+            <motion.div
+              initial={{opacity: 0}}
+              whileInView={{opacity: 1}}
+              viewport={{ once: true }}
+              transition={{duration: 2}}
+            >
+              <SpotlightCard
+                spotlightColor="rgba(0, 229, 255, 0.3)"
+                key={index}
+                className="sm:py-8 sm:px-6 xl:py-10 py-6 px-4 h-full">
+                <div className="flex flex-col h-full">
+                  <div className="text-3xl mb-4 text-cyan-400">{feature.icon}</div>
+                  <h3 className="text-lg font-semibold mb-3 text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-neutral-400 leading-relaxed  flex-grow">
+                    {feature.description}
+                  </p>
+                </div>
+              </SpotlightCard>
+            </motion.div>
           );
         })}
       </div>
