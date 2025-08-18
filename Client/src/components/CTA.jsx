@@ -2,10 +2,12 @@ import React from "react";
 import ShinyText from "./ui/ShinyText";
 import { AuroraText, FadeUpText, ShimmerButton } from "./ui";
 import { motion, useInView } from "motion/react";
+import { useNavigate } from "react-router";
 
 function CTA() {
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
+  const navigate = useNavigate();
 
   return (
     <div className="sm:h-screen h-[80vh] m-0 p-0 w-full flex justify-center items-center text-neutral-400 relative">
@@ -37,8 +39,8 @@ function CTA() {
           </p>
         </motion.div>
 
-        <ShimmerButton className="mx-auto mt-10 text-base">
-          <span className="text-white px-2 tracking-wide">Get Started</span>
+        <ShimmerButton className="mx-auto mt-10 text-base" onClick={() => navigate("/login")} >
+          <span className="w-full h-full text-white px-2 tracking-wide">Get Started</span>
         </ShimmerButton>
       </div>
     </div>

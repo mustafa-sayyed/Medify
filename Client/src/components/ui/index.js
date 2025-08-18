@@ -5,9 +5,9 @@ import { AuroraText } from "./aurora-text";
 import SpotlightCard from "./SpotlightCard";
 import { ShimmerButton } from "./ShimmerButton";
 import Loader from "./Loader";
-import Input from "./input";
 import { Button } from "./button";
 import { Label } from "./label";
+import Input from "./Input";
 
 
 export {
