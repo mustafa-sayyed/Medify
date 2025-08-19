@@ -1,9 +1,10 @@
 import { User } from "../models/user.model.js";
 import ApiError from "../utils/ApiError.utils.js";
+import { asyncHandler } from "../utils/asyncHandler.utils.js";
 import httpStatusCodes from "../utils/httpStatusCode.utils.js";
 import jwt from "jsonwebtoken";
 
-const authenticate = (req, res, next) => {
+const authenticate = asyncHandler(async (req, res, next) => {
   try {
     const token = req.headers?.authorization?.split(" ")[1];
 
@@ -17,7 +18,7 @@ const authenticate = (req, res, next) => {
       throw new ApiError(httpStatusCodes.UNAUTHORIZED, "Expired Token");
     }
 
-    const user = User.findById(decodedToken._id);
+    const user = await User.findById(decodedToken._id).lean();
 
     if (!decodedToken) {
       throw new ApiError(httpStatusCodes.UNAUTHORIZED, "User does not exist");
@@ -31,6 +32,6 @@ const authenticate = (req, res, next) => {
 
     throw new ApiError(httpStatusCodes.UNAUTHORIZED, "Invalid/Expired Token");
   }
-};
+});
 
 export default authenticate;

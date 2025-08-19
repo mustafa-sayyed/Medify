@@ -61,7 +61,7 @@ function ResetPasswordForm() {
       <div className="loader"></div>
     </div>
   ) : (
-    <div className="w-full max-w-md border rounded-lg sm:px-8 px-6 sm:py-10 py-8 bg-zinc-900/40">
+    <div className="w-full max-w-md border rounded-lg sm:px-8 px-6 sm:py-10 py-8 bg-zinc-800/30">
       <h1 className="text-center text-3xl mb-5">Reset Password</h1>
       <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-5">
         <div>

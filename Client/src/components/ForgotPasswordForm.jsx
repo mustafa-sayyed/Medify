@@ -39,7 +39,7 @@ function ForgotPasswordForm() {
   };
 
   return formStep === 1 ? (
-    <div className="w-full max-w-md bg-zinc-900/30 rounded-lg sm:px-8 px-6 sm:py-10 py-8 border">
+    <div className="w-full max-w-md bg-zinc-800/30 rounded-lg sm:px-8 px-6 sm:py-10 py-8 border">
       <div className="mb-6 text-center">
         <h1 className="text-3xl">Forgot Password</h1>
         <p className="text-sm text-neutral-400 mt-2">

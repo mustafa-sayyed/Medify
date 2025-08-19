@@ -4,20 +4,12 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LuLoaderCircle } from "react-icons/lu";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-import { z } from "zod";
 import toast from "react-hot-toast";
-
-const schema = z.object({
-  email: z
-    .string()
-    .nonempty({ message: "Email is required" })
-    .email({ message: "Invalid email" }),
-  password: z
-    .string()
-    .nonempty({ message: "Password is required" })
-    .min(6, { message: "Password length must be greater than 6" }),
-});
+import axios from "axios";
+import { useNavigate } from "react-router";
+import loginSchema from "@/schemas/loginSchema";
+import { useDispatch } from "react-redux";
+import { login } from "@/features/userSlice";
 
 function LoginForm() {
   const {
@@ -25,33 +17,54 @@ function LoginForm() {
     handleSubmit,
     setFocus,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(schema)});
+  } = useForm({ resolver: zodResolver(loginSchema) });
 
   const [isFormSubmiting, setIsFormSubmiting] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setFocus("email");
   }, []);
 
-  const submitHandler = (data) => {
+  const submitHandler = async (data) => {
     setIsFormSubmiting(true);
-    setTimeout(() => {
-      toast.success("Login Successful");
-      toast.error("Invalid Credentials");
-    }, 3000);
-    console.log(data);
+    setTimeout(async () => {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/users/login`,
+          data
+        );
+        console.log(response.data);
+
+        if (response.data.success) {
+          toast.success(response.data.message);
+          dispatch(login(response.data.user));
+          cookieStore.set("token", response.data.token);
+          localStorage.setItem("token", response.data.token);
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.log(error);
+
+        if (error.response) {
+          toast.error(error.response.data.message);
+        }
+        
+      } finally {
+        setIsFormSubmiting(false);
+      }
+    }, 1000);
   };
 
   return (
-    <div className="bg-zinc-800/40 sm:px-8 px-6 sm:py-10 py-8 rounded-lg max-w-md w-full border">
+    <div className="bg-zinc-800/30 sm:px-8 px-6 sm:py-10 py-8 rounded-lg max-w-md w-full border">
       <div className="text-center mb-5 ">
         <h1 className="text-3xl text-center">Login</h1>
         {/* <p className="">Sign in to access your account</p> */}
       </div>
 
-      <form
-        onSubmit={handleSubmit(submitHandler)}
-        className="flex flex-col">
+      <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col">
         <div className="mb-4">
           <Input
             type="text"

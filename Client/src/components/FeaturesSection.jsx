@@ -87,14 +87,13 @@ export default function FeaturesSection() {
         {features.map((feature, index) => {
           return (
             <motion.div
-              initial={{opacity: 0}}
-              whileInView={{opacity: 1}}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{duration: 2}}
-            >
+              transition={{ duration: 2 }}
+              key={index}>
               <SpotlightCard
                 spotlightColor="rgba(0, 229, 255, 0.3)"
-                key={index}
                 className="sm:py-8 sm:px-6 xl:py-10 py-6 px-4 h-full">
                 <div className="flex flex-col h-full">
                   <div className="text-3xl mb-4 text-cyan-400">{feature.icon}</div>

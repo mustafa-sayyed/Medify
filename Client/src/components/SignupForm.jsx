@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input } from "./ui";
-import { Link } from "react-router";
-import { z } from "zod";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LuLoaderCircle } from "react-icons/lu";
-
-const schema = z.object({
-  name: z.string().nonempty("Name is required"),
-  email: z.string().nonempty("Email is required").email("Invalid email"),
-  password: z
-    .string()
-    .nonempty("Password is required")
-    .min(6, "Password length must be greater than 6"),
-});
+import axios from "axios";
+import toast from "react-hot-toast";
+import signupSchema from "@/schemas/signupSchema";
+import { useDispatch } from "react-redux";
+import { login } from "@/features/userSlice";
 
 function SignupForm() {
   const {
@@ -21,7 +16,9 @@ function SignupForm() {
     handleSubmit,
     formState: { errors },
     setFocus,
-  } = useForm({ resolver: zodResolver(schema) });
+  } = useForm({ resolver: zodResolver(signupSchema) });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   useEffect(() => {
@@ -30,11 +27,32 @@ function SignupForm() {
 
   const submitHandler = (data) => {
     setIsFormSubmitting(true);
-    console.log(data);
+    setTimeout(async () => {
+      try {
+        const response = await axios.post("/users/register", data);
+
+        if (response.data.success) {
+          toast.success(response.data.message);
+          dispatch(login(response.data.user))
+          cookieStore.set("token", response.data.token)
+          localStorage.setItem("token", response.data.token)
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.log(error);
+
+        if (error.response) {
+          toast.error(error.response.data.message);
+        }
+        
+      } finally {
+        setIsFormSubmitting(false);
+      }
+    }, 1000);
   };
 
   return (
-    <div className="w-full max-w-md bg-zinc-900/30 border sm:px-8 px-6 sm:py-10 py-8 rounded-lg">
+    <div className="w-full max-w-md bg-zinc-800/30 border sm:px-8 px-6 sm:py-10 py-8 rounded-lg">
       <div className="text-center mb-5">
         <h1 className="text-3xl">Sign Up</h1>
       </div>
@@ -78,11 +96,14 @@ function SignupForm() {
         <Button
           disabled={isFormSubmitting ? true : false}
           className="mt-4 cursor-pointer hover:bg-white/75">
-          {isFormSubmitting ? <span className="flex items-center gap-2">
-            <LuLoaderCircle className="animate-spin"/>
-            Submitting...
-          </span>: "Submit"}
-          
+          {isFormSubmitting ? (
+            <span className="flex items-center gap-2">
+              <LuLoaderCircle className="animate-spin" />
+              Submitting...
+            </span>
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
 

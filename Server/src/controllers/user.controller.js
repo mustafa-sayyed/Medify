@@ -57,9 +57,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const currentUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).lean();
-
+  
   res.status(httpStatusCodes.OK).json({
     success: true,
+    message: "User Fetched Successfully",
     user,
   });
 
