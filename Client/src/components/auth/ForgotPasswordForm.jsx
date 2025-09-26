@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "./ui";
+import { Button, Input } from "../ui";
 import { Link } from "react-router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";

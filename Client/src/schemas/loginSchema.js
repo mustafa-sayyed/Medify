@@ -2,9 +2,9 @@ import z from "zod";
 
 const loginSchema = z.object({
   email: z
-  .email({ message: "Invalid email" })
-  .nonempty({ message: "Email is required" }),
-  
+    .string()
+    .nonempty({ message: "Email is required" })
+    .email({ message: "Invalid email" }),
   password: z
     .string()
     .nonempty({ message: "Password is required" })

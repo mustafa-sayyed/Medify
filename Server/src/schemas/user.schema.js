@@ -4,7 +4,7 @@ const loginUserSchema = z.object({
   email: z.email("Invalid email").nonempty("Email is required"),
   password: z
     .string()
-    .nonempty("Passwor dis required")
+    .nonempty("Password is required")
     .min(6, "password length must be greater than 6"),
 });
 

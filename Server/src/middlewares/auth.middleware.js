@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.utils.js";
 import httpStatusCodes from "../utils/httpStatusCode.utils.js";
 import jwt from "jsonwebtoken";
 
-const authenticate = asyncHandler(async (req, res, next) => {
+const authenticate = asyncHandler(async (req, _, next) => {
   try {
     const token = req.headers?.authorization?.split(" ")[1];
 
@@ -12,15 +12,15 @@ const authenticate = asyncHandler(async (req, res, next) => {
       throw new ApiError(httpStatusCodes.UNAUTHORIZED, "Unauthorized");
     }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_TOKEN);
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     if (!decodedToken) {
       throw new ApiError(httpStatusCodes.UNAUTHORIZED, "Expired Token");
     }
 
-    const user = await User.findById(decodedToken._id).lean();
+    const user = await User.findById(decodedToken._id).lean().select("-password");
 
-    if (!decodedToken) {
+    if (!user) {
       throw new ApiError(httpStatusCodes.UNAUTHORIZED, "User does not exist");
     }
 
@@ -30,7 +30,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
   } catch (error) {
     console.log(error);
 
-    throw new ApiError(httpStatusCodes.UNAUTHORIZED, "Invalid/Expired Token");
+    throw new ApiError(httpStatusCodes.UNAUTHORIZED, error?.message || "Invalid or Expired Token");
   }
 });
 

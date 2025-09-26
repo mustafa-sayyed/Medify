@@ -4,13 +4,12 @@ import { useSelector } from "react-redux";
 
 function Dashboard() {
 
-  const user = useSelector(state => state.user.user) 
+  const user = useSelector(state => state.user.userData) 
   const authStatus = useSelector(state => state.user.authStatus) 
   
-
   console.log(user, authStatus);
   
-    
+
   return (
     <div className="min-h-screen w-full bg-zinc-950 flex justify-center items-center text-white">
       <div>

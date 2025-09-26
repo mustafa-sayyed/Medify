@@ -1,18 +1,13 @@
-import axios from "axios";
+import api from "./axiosInstance";
 
 const fetchCurrentUser = async () => {
-  const token = localStorage.getItem("token");
-
   try {
-    const response = await axios.get("/users/current-user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get("/users/current-user");
 
     if (response.data.success) {
       return response.data;
     }
+
   } catch (error) {
     throw error;
   }

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "./ui";
+import { Button, Input } from "../ui";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { RiCornerUpRightDoubleLine } from "react-icons/ri";
 import { LuLoaderCircle } from "react-icons/lu";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";

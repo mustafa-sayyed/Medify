@@ -3,11 +3,11 @@ import Navbar from "./Navbar";
 import FeaturesSection from "./FeaturesSection";
 import Footer from "./Footer";
 import CTA from "./CTA.jsx";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
-import ForgotPasswordForm from "./ForgotPasswordForm";
-import ResetPasswordForm from "./ResetPasswordForm";
-
+import LoginForm from "./auth/LoginForm";
+import SignupForm from "./auth/SignupForm";
+import ForgotPasswordForm from "./auth/ForgotPasswordForm";
+import ResetPasswordForm from "./auth/ResetPasswordForm";
+import AuthLayout from "./auth/AuthLayout";
 
 export {
   Hero,
@@ -19,4 +19,5 @@ export {
   SignupForm,
   ForgotPasswordForm,
   ResetPasswordForm,
+  AuthLayout,
 };

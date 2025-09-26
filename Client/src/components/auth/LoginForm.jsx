@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "./ui";
+import { Button, Input } from "../ui";
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import loginSchema from "@/schemas/loginSchema";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/features/userSlice";
 
 function LoginForm() {
@@ -22,9 +22,14 @@ function LoginForm() {
   const [isFormSubmiting, setIsFormSubmiting] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const authStatus = useSelector((state) => state.user.authStatus);
 
   useEffect(() => {
-    setFocus("email");
+    if (authStatus) {
+      navigate("/dashboard");
+    } else {
+      setFocus("email");
+    }
   }, []);
 
   const submitHandler = async (data) => {
@@ -40,8 +45,8 @@ function LoginForm() {
         if (response.data.success) {
           toast.success(response.data.message);
           dispatch(login(response.data.user));
-          cookieStore.set("token", response.data.token);
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("refreshToken", response.data.user.refreshToken)
           navigate("/dashboard");
         }
       } catch (error) {
@@ -50,7 +55,6 @@ function LoginForm() {
         if (error.response) {
           toast.error(error.response.data.message);
         }
-        
       } finally {
         setIsFormSubmiting(false);
       }

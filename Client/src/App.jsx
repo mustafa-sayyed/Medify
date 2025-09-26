@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route } from "react-router";
 import {
   Login,
   Signup,
@@ -9,19 +9,19 @@ import {
   Dashboard,
   NotFound,
 } from "./pages";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import fetchCurrentUser from "./utils/fetchCurrentUser";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./features/userSlice";
 import { useQuery } from "@tanstack/react-query";
+import { AuthLayout } from "./components";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+const refreshToken = localStorage.getItem("refreshToken");
 
 function App() {
-  // const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   // API calls to get the User
   const { isLoading, data, error, isError, isSuccess } = useQuery({
@@ -40,7 +40,6 @@ function App() {
   if (isError) {
     console.log(error);
     dispatch(logout());
-    localStorage.removeItem("token");
   }
 
   if (isLoading) {
@@ -60,7 +59,13 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <AuthLayout>
+              <Dashboard />
+            </AuthLayout>
+          }></Route>
 
         <Route path="*" element={<NotFound />} />
       </Routes>

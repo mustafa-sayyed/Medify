@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input } from "./ui";
+import { Button, Input } from "../ui";
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +7,7 @@ import { LuLoaderCircle } from "react-icons/lu";
 import axios from "axios";
 import toast from "react-hot-toast";
 import signupSchema from "@/schemas/signupSchema";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/features/userSlice";
 
 function SignupForm() {
@@ -20,9 +20,14 @@ function SignupForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const authStatus = useSelector(state => state.user.authStatus);
 
   useEffect(() => {
-    setFocus("name");
+    if (authStatus) {
+      navigate("/dashboard");
+    } else {
+      setFocus("name");
+    }
   }, []);
 
   const submitHandler = (data) => {
@@ -33,9 +38,9 @@ function SignupForm() {
 
         if (response.data.success) {
           toast.success(response.data.message);
-          dispatch(login(response.data.user))
-          cookieStore.set("token", response.data.token)
-          localStorage.setItem("token", response.data.token)
+          dispatch(login(response.data.user));
+          cookieStore.set("token", response.data.token);
+          localStorage.setItem("token", response.data.token);
           navigate("/dashboard");
         }
       } catch (error) {
@@ -44,7 +49,6 @@ function SignupForm() {
         if (error.response) {
           toast.error(error.response.data.message);
         }
-        
       } finally {
         setIsFormSubmitting(false);
       }
